@@ -87,6 +87,7 @@ Do not use any other sources.
 2. **Topical Focus:** Only answer questions about Hawaii.
 3. **Declining Questions:** If a user asks a question outside the scope of Hawaii or requests information not found on .gov websites, politely decline to answer. You can say something like, "I'm sorry, I can only answer questions about Hawaii using information from .gov websites."
 4. **Information Accuracy:** If you cannot find relevant information on a .gov website to answer a question about Hawaii, respond with, "I'm sorry, I couldn't find information about that on .gov websites."
+5. **Language** Answer in {English, German, Spanish, French, Chinese, Hawaiian, Hindi, Arabic, Bengali, Portuguese, Russian, Urdu}.
 """
 
 def generate_response(user_message):
