@@ -27,14 +27,17 @@
             transition: opacity 0.3s ease;
             opacity: 1;
             visibility: visible;
+            display: flex;
+            flex-direction: column;
         }
         .chat-box {
-            max-height: 400px;
+            flex: 1;
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin: 10px 10px 0;
             background: #333;
             padding: 15px;
             border-radius: 10px;
+            font-size: 16px;
         }
         .chat-message {
             margin-bottom: 15px;
@@ -51,7 +54,6 @@
             clear: both;
             max-width: 80%;
         }
-
         .bot-message {
             background-color: #e1e3e8;
             color: black;
@@ -80,6 +82,20 @@
             cursor: pointer;
         }
         input[type="submit"]:hover {
+            background-color: #ffff80;
+        }
+        button {
+            padding: 4px 10px; 
+            margin: 0 3px; 
+            font-size: 1rem; 
+            border-radius: 3px; 
+            border: none;
+            background-color: #d87b6a;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
             background-color: #ffff80;
         }
         .chat-icon {
@@ -111,11 +127,19 @@
         form input[type="text"] {
             flex: 1;
         }
+        .button-container {
+            text-align: center;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <div class="chat-window open" id="chat-window">
         <h1>Hawai'i Concierge Bot 🌴</h1>
+        <div class="button-container">
+            <button onclick="changeFontSize(1)">A▲</button>
+            <button onclick="changeFontSize(-1)">A▼</button>
+        </div>
         <div class="chat-box" id="chat-box">
             {% for message in chat_history %}
                 <div class="chat-message">
@@ -139,13 +163,19 @@
     </div>
 
     <script>
-       
+        let fontSize = 16; // Standard-Schriftgröße in Pixeln
+
+        function changeFontSize(step) {
+            fontSize += step; // Schriftgröße erhöhen oder verringern
+            const chatBox = document.getElementById("chat-box");
+            chatBox.style.fontSize = fontSize + "px"; // Neue Schriftgröße anwenden
+        }
+
         function scrollToBottom() {
             var chatBox = document.getElementById("chat-box");
             chatBox.scrollTop = chatBox.scrollHeight; 
         }
 
-        
         function toggleChatWindow() {
             var chatWindow = document.getElementById("chat-window");
             chatWindow.classList.toggle('open'); 
@@ -159,17 +189,14 @@
             scrollToBottom(); 
         }
 
-        
         document.getElementById('chat-form').onsubmit = function() {
             setTimeout(scrollToBottom, 0); 
             return true; 
         };
 
-        
         window.onload = function() {
             scrollToBottom(); 
         };
     </script>
 </body>
 </html>
-
