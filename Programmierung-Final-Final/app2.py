@@ -136,18 +136,15 @@ def generate_response(user_message):
     )
     return response.text.strip()
 
-# Chat Route
 @app.route("/", methods=["GET", "POST"])
 def chat():
     if request.method == "POST":
         user_message = request.form["message"]
         bot_response = generate_response(user_message)
         chat_history.append({"user": user_message, "bot": bot_response})
-        # Schriftgröße aus dem Formular speichern
         session["fontSize"] = request.form.get("fontSize", 16)
         return redirect(url_for("chat"))
 
-    # Schriftgröße aus der Sitzung laden
     font_size = session.get("fontSize", 16)
     return render_template("index.html", chat_history=chat_history, font_size=font_size)
 
