@@ -3,13 +3,11 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, SafetySetting
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Für Sitzungen
+app.secret_key = 'your_secret_key' 
 
-# Initialize Vertex AI
 vertexai.init(project="hacc-project", location="us-west1")
 model = GenerativeModel("gemini-1.5-pro-002")
 
-# Generative Model Configurations
 generation_config = {
     "max_output_tokens": 8192,
     "temperature": 0.7,
@@ -17,7 +15,6 @@ generation_config = {
     "top_k": 40,
 }
 
-# Prompt Template
 PROMPT_TEMPLATE = """
 You are a Hawaii AI Concierge. You can answer any question about Hawaii, using only information from .gov websites and their subdomains. You will politely decline to answer any questions outside of this scope.
 
