@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawai'i Concierge Bot</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('/static/hawaii-digital-art.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center 0%;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+        .chat-window {
+            position: fixed;
+            bottom: 80px;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            opacity: 1;
+            visibility: visible;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            margin: 10px;
+            padding: 15px;
+            background: #333;
+            border-radius: 10px;
+            font-size: {{ font_size }}px;
+        }
+        .chat-message {
+            margin-bottom: 15px;
+        }
+        .user-message {
+            background-color: #d1e5f5;
+            color: black;
+            border-radius: 16px;
+            padding: 8px 12px;
+            margin: 4px 0;
+            display: inline-block;
+            float: right;
+            clear: both;
+            max-width: 80%;
+        }
+        .bot-message {
+            background-color: #e1e3e8;
+            color: black;
+            border-radius: 16px;
+            padding: 8px 12px;
+            margin: 4px 0;
+            display: inline-block;
+            float: left;
+            clear: both;
+            max-width: 80%;
+        }
+        input[type="text"], input[type="hidden"] {
+            width: 70%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+        }
+        input[type="submit"] {
+            padding: 12px 25px;
+            border-radius: 5px;
+            background-color: #d87b6a;
+            color: black;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #ffff80;
+        }
+        button {
+            padding: 6px 12px;
+            margin: 0 5px;
+            border-radius: 3px;
+            background-color: #d87b6a;
+            color: black;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ffff80;
+        }
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #ffff80;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            text-align: center;
+            margin: 0;
+            padding: 10px;
+            font-size: 1.5rem;
+        }
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-window" id="chat-window">
+        <h1>Hawai'i Concierge Bot 🌴</h1>
+        <div>
+            <button onclick="changeFontSize(1)" style="margin-left: 110px;">A▲</button>
+            <button onclick="changeFontSize(-1)">A▼</button>
+        </div>
+        <div class="chat-box" id="chat-box">
+            {% for message in chat_history %}
+                <div class="chat-message">
+                    <span class="user-message"><strong>You:</strong> {{ message['user'] }}</span><br>
+                    <span class="bot-message">{{ message['bot'] }}</span>
+                </div>
+            {% endfor %}
+            {% if chat_history|length == 0 %}
+                <div class="chat-message"><span class="bot-message">Start chatting with me!</span></div>
+            {% endif %}
+        </div>
+        <form id="chat-form" method="post" action="/">
+            <input type="text" name="message" placeholder="Type your message here..." required>
+            <input type="hidden" id="fontSizeInput" name="fontSize" value="{{ font_size }}">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+    <div class="chat-icon" onclick="toggleChatWindow()">
+        <img src="/static/hibiscus.png" alt="Chat Icon" style="width: 100%; height: auto;">
+    </div>
+
+    <script>
+        function toggleChatWindow() {
+            const chatWindow = document.getElementById("chat-window");
+            const isVisible = chatWindow.style.visibility !== 'hidden';
+            chatWindow.style.visibility = isVisible ? 'hidden' : 'visible';
+            chatWindow.style.opacity = isVisible ? '0' : '1';
+        }
+
+        function scrollToBottom() {
+            var chatBox = document.getElementById("chat-box");
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        window.onload = scrollToBottom;
+
+
+        function changeFontSize(step) {
+            const fontSizeInput = document.getElementById("fontSizeInput");
+            const currentSize = parseInt(fontSizeInput.value) || 16;
+            const newSize = currentSize + step;
+            fontSizeInput.value = newSize;
+            document.getElementById("chat-box").style.fontSize = newSize + "px";
+        }
+    </script>
+</body>
+</html>
+        
